@@ -504,6 +504,31 @@ WHERE conv.type = 'class'
 AND NOT EXISTS (SELECT 1 FROM messages m WHERE m.conversation_id = conv.id);
 
 -- ============================================================
+-- 12. AUDIT LOG (fabricated recent activity so the dashboard isn't empty —
+-- normally these are written automatically by the app's audit middleware
+-- whenever a staff member creates/edits/deletes something through the API;
+-- since this seed data was inserted directly via SQL, none of that fired).
+-- Only seeds if audit_log is currently empty, so it never duplicates on rerun.
+-- ============================================================
+
+INSERT INTO audit_log (user_id, action, entity, entity_id, created_at)
+SELECT * FROM (VALUES
+  ((SELECT id FROM users WHERE email = 'admin@eduflow.test'), 'POST /api/classes', 'classes', (SELECT id FROM classes WHERE name = 'Grade 9' AND section = 'B'), now() - interval '3 days'),
+  ((SELECT id FROM users WHERE email = 'admin@eduflow.test'), 'POST /api/teachers', 'teachers', (SELECT id FROM teachers WHERE user_id = (SELECT id FROM users WHERE email = 'arjun.mehta@eduflow.test')), now() - interval '3 days' + interval '10 minutes'),
+  ((SELECT id FROM users WHERE email = 'office@eduflow.test'), 'POST /api/students', 'students', (SELECT id FROM students WHERE admission_no = 'ADM-2001'), now() - interval '2 days'),
+  ((SELECT id FROM users WHERE email = 'office@eduflow.test'), 'POST /api/fees', 'fees', (SELECT id FROM student_fees LIMIT 1), now() - interval '2 days' + interval '15 minutes'),
+  ((SELECT id FROM users WHERE email = 'office@eduflow.test'), 'POST /api/fees/2/payments', 'fees', (SELECT id FROM payments WHERE receipt_no = 'RCPT-DEMO-0001'), now() - interval '1 day' - interval '4 hours'),
+  ((SELECT id FROM users WHERE email = 'arjun.mehta@eduflow.test'), 'POST /api/exams', 'exams', (SELECT id FROM exams WHERE title = 'Midterm Mathematics'), now() - interval '1 day' - interval '2 hours'),
+  ((SELECT id FROM users WHERE email = 'arjun.mehta@eduflow.test'), 'PUT /api/exams/1', 'exams', (SELECT id FROM exams WHERE title = 'Midterm Mathematics'), now() - interval '1 day' - interval '1 hour'),
+  ((SELECT id FROM users WHERE email = 'arjun.mehta@eduflow.test'), 'POST /api/attendance', 'attendance', NULL, now() - interval '6 hours'),
+  ((SELECT id FROM users WHERE email = 'kavya.iyer@eduflow.test'), 'POST /api/exams', 'exams', (SELECT id FROM exams WHERE title = 'Science Quiz'), now() - interval '5 hours'),
+  ((SELECT id FROM users WHERE email = 'headmaster@eduflow.test'), 'POST /api/announcements', 'announcements', (SELECT id FROM announcements WHERE title = 'Welcome to the New Semester'), now() - interval '3 hours'),
+  ((SELECT id FROM users WHERE email = 'rohan.das@eduflow.test'), 'POST /api/assignments', 'assignments', (SELECT id FROM assignments WHERE title = 'Essay: My Favorite Book'), now() - interval '2 hours'),
+  ((SELECT id FROM users WHERE email = 'arjun.mehta@eduflow.test'), 'PUT /api/exams/submissions/1/answers/1/grade', 'exams', 1, now() - interval '45 minutes')
+) AS demo_entries
+WHERE NOT EXISTS (SELECT 1 FROM audit_log);
+
+-- ============================================================
 -- Done. Demo accounts (password for all new accounts: Demo@123):
 --   headmaster@eduflow.test      (head_master)
 --   office@eduflow.test          (office_admin)
