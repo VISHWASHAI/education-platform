@@ -61,10 +61,15 @@ fees.get('/summary', canManage, async (c) => {
   const [totals, byMonth, outstanding] = await Promise.all([
     query(`SELECT COALESCE(SUM(amount), 0) AS total_billed, COALESCE(SUM(amount_paid), 0) AS total_collected FROM student_fees`),
     query(
-      `SELECT to_char(date_trunc('month', paid_at), 'YYYY-MM') AS month, SUM(amount) AS revenue
-       FROM payments
-       WHERE paid_at > now() - interval '12 months'
-       GROUP BY 1 ORDER BY 1`
+      `SELECT to_char(month_series, 'YYYY-MM') AS month, COALESCE(SUM(p.amount), 0) AS revenue
+       FROM generate_series(
+         date_trunc('month', now()) - interval '11 months',
+         date_trunc('month', now()),
+         interval '1 month'
+       ) AS month_series
+       LEFT JOIN payments p ON date_trunc('month', p.paid_at) = month_series
+       GROUP BY month_series
+       ORDER BY month_series`
     ),
     query(`SELECT COALESCE(SUM(amount - amount_paid), 0) AS outstanding FROM student_fees WHERE status != 'paid'`),
   ]);
