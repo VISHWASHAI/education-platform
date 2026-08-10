@@ -31,14 +31,14 @@ export function Login() {
     <div className="min-h-screen flex items-center justify-center px-4">
       <GlassCard className="w-full max-w-md">
         <div className="text-center mb-8">
-          <img src="/logo.png" alt="People's Education Society emblem" className="w-24 h-24 mx-auto mb-4 object-contain" />
+          <img src="/logo.png" alt="People's Education Society emblem" className="w-32 h-32 mx-auto mb-4 object-contain" />
           <h1 className="text-2xl font-bold text-slate-900">People's Education Society</h1>
           <p className="text-sm text-slate-500 mt-1">Sign in to your account</p>
           <div className="flex flex-col items-center mt-6 pt-6 border-t border-slate-100">
             <img
               src="/founder.png"
               alt="Founder"
-              className="w-20 h-20 rounded-full object-cover border-2 border-slate-200 shadow-sm"
+              className="w-32 h-32 rounded-full object-cover border-2 border-slate-200 shadow-sm mx-auto"
             />
             <p className="text-xs font-semibold text-slate-500 tracking-wide uppercase mt-2">Founder</p>
           </div>
