@@ -1,27 +1,11 @@
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, Users, CalendarCheck, GraduationCap, School, FileText, ClipboardList, DollarSign, BarChart3, ShieldCheck, FileUp, Megaphone, MessageSquare, X } from 'lucide-react';
+import { X } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
-import { ALL_STAFF, ADMIN_TRIO } from '../../constants/roles';
-
-const links = [
-  { to: '/', label: 'Dashboard', icon: LayoutDashboard, end: true },
-  { to: '/students', label: 'Students', icon: Users, roles: ALL_STAFF },
-  { to: '/teachers', label: 'Teachers', icon: GraduationCap, roles: ALL_STAFF },
-  { to: '/classes', label: 'Classes', icon: School, roles: ALL_STAFF },
-  { to: '/attendance', label: 'Attendance', icon: CalendarCheck, roles: ALL_STAFF },
-  { to: '/exams', label: 'Exams', icon: FileText },
-  { to: '/assignments', label: 'Assignments', icon: ClipboardList },
-  { to: '/fees', label: 'Fees', icon: DollarSign, roles: [...ADMIN_TRIO, 'student'] },
-  { to: '/announcements', label: 'Announcements', icon: Megaphone },
-  { to: '/messages', label: 'Messages', icon: MessageSquare },
-  { to: '/analytics', label: 'Analytics', icon: BarChart3, roles: ALL_STAFF },
-  { to: '/audit-log', label: 'Audit Log', icon: ShieldCheck, roles: ['super_admin', 'head_master'] },
-  { to: '/bulk-tools', label: 'Import / Export', icon: FileUp, roles: ADMIN_TRIO },
-];
+import { NAV_LINKS } from '../../constants/navigation';
 
 export function Sidebar({ open, onClose }) {
   const { user } = useAuth();
-  const visibleLinks = links.filter((link) => !link.roles || link.roles.includes(user?.role));
+  const visibleLinks = NAV_LINKS.filter((link) => !link.roles || link.roles.includes(user?.role));
 
   return (
     <>
@@ -34,17 +18,17 @@ export function Sidebar({ open, onClose }) {
       )}
 
       <aside
-        className={`w-64 shrink-0 h-screen fixed lg:sticky top-0 z-40 bg-white border-r border-slate-200 shadow-lg lg:shadow-none p-6 flex flex-col gap-8 transition-transform duration-300 ease-in-out ${
+        className={`w-64 shrink-0 h-screen fixed lg:sticky top-0 z-40 bg-white border-r-2 border-slate-200 shadow-lg lg:shadow-none p-6 flex flex-col gap-8 transition-transform duration-300 ease-in-out ${
           open ? 'translate-x-0' : '-translate-x-full'
         } lg:translate-x-0`}
       >
-        <div className="flex items-center justify-between gap-3">
+        <div className="flex items-start justify-between gap-2 pb-5 border-b border-slate-100">
           <div className="flex items-center gap-3 min-w-0">
-            <div className="w-10 h-10 rounded-lg bg-white border border-slate-200 flex items-center justify-center shrink-0 p-1">
+            <div className="w-11 h-11 rounded-lg bg-white border border-slate-200 flex items-center justify-center shrink-0 p-1.5">
               <img src="/logo.png" alt="People's Education Society emblem" className="w-full h-full object-contain" />
             </div>
             <div className="min-w-0">
-              <p className="text-sm font-bold text-slate-900 leading-tight truncate">People's Education Society</p>
+              <p className="text-sm font-bold text-slate-900 leading-snug">People's Education Society</p>
               <p className="text-[11px] text-slate-500 tracking-wide">Academic Portal</p>
             </div>
           </div>
