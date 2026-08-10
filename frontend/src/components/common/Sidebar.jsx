@@ -28,9 +28,10 @@ export function Sidebar({ open, onClose }) {
       )}
 
       <aside
-        className={`w-64 shrink-0 h-screen fixed lg:sticky top-0 z-40 bg-white border-r-2 border-slate-200 shadow-lg lg:shadow-none flex flex-col transition-transform duration-300 ease-in-out ${
+        className={`w-64 shrink-0 h-screen fixed lg:sticky top-0 z-40 bg-white border-r-2 shadow-lg lg:shadow-none flex flex-col transition-transform duration-300 ease-in-out ${
           open ? 'translate-x-0' : '-translate-x-full'
         } lg:translate-x-0`}
+        style={{ borderRightColor: '#1a1f6e' }}
       >
         <div className="flex items-start justify-between gap-2 p-6 pb-5 border-b border-slate-100">
           <div className="flex items-center gap-3 min-w-0">

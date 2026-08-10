@@ -9,7 +9,10 @@ export function Navbar({ onMenuClick }) {
   const title = pageTitleFor(location.pathname);
 
   return (
-    <header className="h-16 flex items-center justify-between gap-4 px-4 sm:px-8 border-b-2 border-slate-200 bg-white shadow-sm sticky top-0 z-10">
+    <header
+      className="h-16 flex items-center justify-between gap-4 px-4 sm:px-8 border-b-2 bg-white shadow-sm sticky top-0 z-10"
+      style={{ borderBottomColor: '#1a1f6e' }}
+    >
       <div className="flex items-center gap-3 min-w-0">
         <button onClick={onMenuClick} className="text-slate-500 hover:text-slate-900 transition-colors duration-200 lg:hidden shrink-0" aria-label="Open menu">
           <Menu size={22} />
