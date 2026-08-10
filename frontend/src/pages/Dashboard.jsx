@@ -62,8 +62,8 @@ export function Dashboard() {
         <img
           src="/founder.png"
           alt="Founder"
-          className="w-28 h-28 rounded-full object-cover object-top border-2 shadow-sm shrink-0"
-          style={{ borderColor: '#1a1f6e' }}
+          className="w-28 h-28 rounded-full object-cover border-2 shadow-sm shrink-0"
+          style={{ borderColor: '#1a1f6e', objectPosition: '50% 30%' }}
         />
         <div>
           <p className="text-sm font-bold uppercase tracking-wide" style={{ color: '#1a1f6e' }}>Founder</p>
