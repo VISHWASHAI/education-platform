@@ -58,15 +58,16 @@ export function Dashboard() {
 
       {error && <p className="text-danger">{error}</p>}
 
-      <GlassCard className="flex items-center gap-4">
+      <GlassCard className="flex items-center gap-5">
         <img
           src="/founder.png"
           alt="Founder"
-          className="w-16 h-16 rounded-full object-cover object-top border-2 border-slate-200 shadow-sm shrink-0"
+          className="w-28 h-28 rounded-full object-cover object-top border-2 shadow-sm shrink-0"
+          style={{ borderColor: '#1a1f6e' }}
         />
         <div>
-          <p className="text-xs font-semibold text-blue-700 uppercase tracking-wide">Founder</p>
-          <p className="text-sm text-slate-600 mt-0.5">People's Education Society</p>
+          <p className="text-sm font-bold uppercase tracking-wide" style={{ color: '#1a1f6e' }}>Founder</p>
+          <p className="text-base text-slate-900 font-semibold mt-1">People's Education Society</p>
         </div>
       </GlassCard>
 
