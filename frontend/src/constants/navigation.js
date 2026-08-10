@@ -1,4 +1,4 @@
-import { LayoutDashboard, Users, CalendarCheck, GraduationCap, School, FileText, ClipboardList, DollarSign, BarChart3, ShieldCheck, FileUp, Megaphone, MessageSquare } from 'lucide-react';
+import { LayoutDashboard, Users, CalendarCheck, GraduationCap, School, FileText, ClipboardList, DollarSign, BarChart3, ShieldCheck, FileUp, Megaphone, MessageSquare, Image } from 'lucide-react';
 import { ALL_STAFF, ADMIN_TRIO } from './roles';
 
 // Single source of truth for sidebar links and the navbar's current-page title —
@@ -18,6 +18,7 @@ export const NAV_LINKS = [
 
   { to: '/announcements', label: 'Announcements', icon: Megaphone, section: 'Communication' },
   { to: '/messages', label: 'Messages', icon: MessageSquare, section: 'Communication' },
+  { to: '/gallery', label: 'Gallery', icon: Image, section: 'Communication' },
 
   { to: '/analytics', label: 'Analytics', icon: BarChart3, roles: ALL_STAFF, section: 'Administration' },
   { to: '/audit-log', label: 'Audit Log', icon: ShieldCheck, roles: ['super_admin', 'head_master'], section: 'Administration' },
@@ -28,4 +29,10 @@ export function pageTitleFor(pathname) {
   if (pathname === '/') return 'Dashboard';
   const match = NAV_LINKS.find((link) => link.to !== '/' && pathname.startsWith(link.to));
   return match?.label ?? '';
+}
+
+export function sectionFor(pathname) {
+  if (pathname === '/') return 'Overview';
+  const match = NAV_LINKS.find((link) => link.to !== '/' && pathname.startsWith(link.to));
+  return match?.section;
 }

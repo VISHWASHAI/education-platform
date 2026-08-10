@@ -5,7 +5,7 @@ import { pool } from './pool.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const SCHEMA_FILES = ['schema.sql', 'schema_exams.sql', 'schema_assignments.sql', 'schema_fees.sql', 'schema_messaging.sql'];
+const SCHEMA_FILES = ['schema.sql', 'schema_exams.sql', 'schema_assignments.sql', 'schema_fees.sql', 'schema_messaging.sql', 'schema_gallery.sql'];
 
 async function migrate() {
   for (const file of SCHEMA_FILES) {

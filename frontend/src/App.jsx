@@ -18,6 +18,7 @@ import { AuditLog } from './pages/AuditLog';
 import { BulkTools } from './pages/BulkTools';
 import { Announcements } from './pages/Announcements';
 import { Messages } from './pages/Messages';
+import { Gallery } from './pages/Gallery';
 
 export default function App() {
   return (
@@ -47,6 +48,7 @@ export default function App() {
             <Route path="/bulk-tools" element={<BulkTools />} />
             <Route path="/announcements" element={<Announcements />} />
             <Route path="/messages" element={<Messages />} />
+            <Route path="/gallery" element={<Gallery />} />
           </Route>
         </Routes>
       </AuthProvider>

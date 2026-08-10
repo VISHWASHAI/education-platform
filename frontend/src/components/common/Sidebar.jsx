@@ -1,10 +1,12 @@
-import { NavLink } from 'react-router-dom';
-import { X } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
+import { ChevronDown, X } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
-import { NAV_LINKS } from '../../constants/navigation';
+import { NAV_LINKS, sectionFor } from '../../constants/navigation';
 
 export function Sidebar({ open, onClose }) {
   const { user, logout } = useAuth();
+  const location = useLocation();
   const visibleLinks = NAV_LINKS.filter((link) => !link.roles || link.roles.includes(user?.role));
 
   const sections = [];
@@ -16,6 +18,12 @@ export function Sidebar({ open, onClose }) {
     }
     group.links.push(link);
   }
+
+  const [openSection, setOpenSection] = useState(sectionFor(location.pathname));
+
+  useEffect(() => {
+    setOpenSection(sectionFor(location.pathname));
+  }, [location.pathname]);
 
   return (
     <>
@@ -48,33 +56,42 @@ export function Sidebar({ open, onClose }) {
           </button>
         </div>
 
-        <nav className="flex-1 overflow-y-auto px-4 py-5 flex flex-col gap-5">
-          {sections.map((group) => (
-            <div key={group.name}>
-              <p className="px-3 mb-1.5 text-[10px] font-bold uppercase tracking-widest text-slate-400">
-                {group.name}
-              </p>
-              <div className="flex flex-col gap-0.5">
-                {group.links.map(({ to, label, icon: Icon, end }) => (
-                  <NavLink
-                    key={to}
-                    to={to}
-                    end={end}
-                    className={({ isActive }) =>
-                      `flex items-center gap-3 pl-3 pr-4 py-2.5 rounded-lg text-sm font-medium border-l-[3px] transition-all duration-150 ${
-                        isActive
-                          ? 'bg-blue-50 border-blue-600 text-blue-700'
-                          : 'border-transparent text-slate-600 hover:bg-slate-50 hover:text-slate-900'
-                      }`
-                    }
-                  >
-                    <Icon size={18} />
-                    {label}
-                  </NavLink>
-                ))}
+        <nav className="flex-1 overflow-y-auto px-4 py-3 flex flex-col gap-1">
+          {sections.map((group) => {
+            const isOpen = openSection === group.name;
+            return (
+              <div key={group.name}>
+                <button
+                  onClick={() => setOpenSection(isOpen ? null : group.name)}
+                  className="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-[11px] font-bold uppercase tracking-widest text-slate-400 hover:text-slate-600 hover:bg-slate-50 transition-colors duration-150"
+                >
+                  {group.name}
+                  <ChevronDown size={14} className={`transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+                </button>
+                {isOpen && (
+                  <div className="flex flex-col gap-0.5 pb-2">
+                    {group.links.map(({ to, label, icon: Icon, end }) => (
+                      <NavLink
+                        key={to}
+                        to={to}
+                        end={end}
+                        className={({ isActive }) =>
+                          `flex items-center gap-3 pl-3 pr-4 py-2.5 rounded-lg text-sm font-medium border-l-[3px] transition-all duration-150 ${
+                            isActive
+                              ? 'bg-blue-50 border-blue-600 text-blue-700'
+                              : 'border-transparent text-slate-600 hover:bg-slate-50 hover:text-slate-900'
+                          }`
+                        }
+                      >
+                        <Icon size={18} />
+                        {label}
+                      </NavLink>
+                    ))}
+                  </div>
+                )}
               </div>
-            </div>
-          ))}
+            );
+          })}
         </nav>
 
         <div className="p-4 border-t border-slate-100">

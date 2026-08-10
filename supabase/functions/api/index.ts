@@ -17,6 +17,7 @@ import analytics from './routes/analytics.ts';
 import auditLog from './routes/auditLog.ts';
 import announcements from './routes/announcements.ts';
 import messaging from './routes/messaging.ts';
+import gallery from './routes/gallery.ts';
 
 const app = new Hono().basePath('/api');
 
@@ -40,6 +41,7 @@ app.route('/analytics', analytics);
 app.route('/audit-log', auditLog);
 app.route('/announcements', announcements);
 app.route('/messaging', messaging);
+app.route('/gallery', gallery);
 
 app.notFound((c) => c.json({ error: 'Not found' }, 404));
 
