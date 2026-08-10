@@ -34,14 +34,6 @@ export function Login() {
           <img src="/logo.png" alt="People's Education Society emblem" className="w-32 h-32 mx-auto mb-4 object-contain" />
           <h1 className="text-2xl font-bold text-slate-900">People's Education Society</h1>
           <p className="text-sm text-slate-500 mt-1">Sign in to your account</p>
-          <div className="flex flex-col items-center mt-6 pt-6 border-t border-slate-100">
-            <img
-              src="/founder.png"
-              alt="Founder"
-              className="w-32 h-32 rounded-full object-cover object-top border-2 border-slate-200 shadow-sm mx-auto"
-            />
-            <p className="text-xs font-semibold text-slate-500 tracking-wide uppercase mt-2">Founder</p>
-          </div>
         </div>
         <form onSubmit={handleSubmit} className="space-y-5">
           <FormInput

@@ -58,6 +58,18 @@ export function Dashboard() {
 
       {error && <p className="text-danger">{error}</p>}
 
+      <GlassCard className="flex items-center gap-4">
+        <img
+          src="/founder.png"
+          alt="Founder"
+          className="w-16 h-16 rounded-full object-cover object-top border-2 border-slate-200 shadow-sm shrink-0"
+        />
+        <div>
+          <p className="text-xs font-semibold text-blue-700 uppercase tracking-wide">Founder</p>
+          <p className="text-sm text-slate-600 mt-0.5">People's Education Society</p>
+        </div>
+      </GlassCard>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard title="Total Students" value={overview?.totalStudents ?? '—'} icon={Users} />
         <StatCard title="Total Teachers" value={overview?.totalTeachers ?? '—'} icon={GraduationCap} />

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Plus, Trash2, ImageOff } from 'lucide-react';
+import { Plus, Trash2, ImageOff, X } from 'lucide-react';
 import { api } from '../api/client';
 import { GlassCard } from '../components/shared/GlassCard';
 import { PrimaryButton } from '../components/shared/PrimaryButton';
@@ -30,6 +30,7 @@ export function Gallery() {
   const [preview, setPreview] = useState('');
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState('');
+  const [viewing, setViewing] = useState(null);
 
   function load() {
     setLoading(true);
@@ -106,7 +107,9 @@ export function Gallery() {
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
           {photos.map((p) => (
             <div key={p.id} className="glass-card overflow-hidden group relative">
-              <img src={p.image_data} alt={p.caption || 'School photo'} className="w-full aspect-square object-cover" />
+              <button onClick={() => setViewing(p)} className="block w-full">
+                <img src={p.image_data} alt={p.caption || 'School photo'} className="w-full aspect-square object-cover cursor-zoom-in" />
+              </button>
               {(p.caption || p.uploaded_by_name) && (
                 <div className="p-3">
                   {p.caption && <p className="text-sm font-medium text-slate-900 truncate">{p.caption}</p>}
@@ -151,6 +154,33 @@ export function Gallery() {
             </PrimaryButton>
           </form>
         </Modal>
+      )}
+
+      {viewing && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 px-4 py-8"
+          onClick={() => setViewing(null)}
+        >
+          <button
+            onClick={() => setViewing(null)}
+            className="absolute top-4 right-4 text-white/80 hover:text-white transition-colors duration-200"
+            aria-label="Close"
+          >
+            <X size={28} />
+          </button>
+          <div className="max-w-4xl max-h-full flex flex-col items-center gap-3" onClick={(e) => e.stopPropagation()}>
+            <img src={viewing.image_data} alt={viewing.caption || 'School photo'} className="max-w-full max-h-[80vh] object-contain rounded-lg" />
+            {(viewing.caption || viewing.uploaded_by_name) && (
+              <div className="text-center">
+                {viewing.caption && <p className="text-white font-medium">{viewing.caption}</p>}
+                <p className="text-white/60 text-sm mt-0.5">
+                  {viewing.uploaded_by_name ? `Uploaded by ${viewing.uploaded_by_name} · ` : ''}
+                  {new Date(viewing.created_at).toLocaleDateString()}
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
       )}
     </div>
   );
