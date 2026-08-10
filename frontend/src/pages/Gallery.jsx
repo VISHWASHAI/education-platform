@@ -120,7 +120,7 @@ export function Gallery() {
                 <button
                   onClick={() => remove(p.id)}
                   title="Delete"
-                  className="absolute top-2 right-2 bg-white/90 hover:bg-white text-slate-500 hover:text-danger rounded-full p-1.5 shadow-sm opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                  className="absolute top-2 right-2 bg-white/90 hover:bg-white text-slate-500 hover:text-danger rounded-full p-1.5 shadow-sm opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-200"
                 >
                   <Trash2 size={14} />
                 </button>
