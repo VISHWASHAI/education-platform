@@ -31,7 +31,7 @@ export function Login() {
     <div className="min-h-screen flex items-center justify-center px-4">
       <GlassCard className="w-full max-w-md">
         <div className="text-center mb-8">
-          <img src="/logo.png" alt="People's Education Society emblem" className="w-16 h-16 mx-auto mb-4 object-contain" />
+          <img src="/logo.png" alt="People's Education Society emblem" className="w-24 h-24 mx-auto mb-4 object-contain" />
           <h1 className="text-2xl font-bold text-slate-900">People's Education Society</h1>
           <p className="text-sm text-slate-500 mt-1">Sign in to your account</p>
         </div>

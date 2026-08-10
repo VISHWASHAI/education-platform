@@ -24,7 +24,7 @@ export function Sidebar({ open, onClose }) {
       >
         <div className="flex items-start justify-between gap-2 pb-5 border-b border-slate-100">
           <div className="flex items-center gap-3 min-w-0">
-            <div className="w-11 h-11 rounded-lg bg-white border border-slate-200 flex items-center justify-center shrink-0 p-1.5">
+            <div className="w-16 h-16 rounded-lg bg-white border border-slate-200 flex items-center justify-center shrink-0 p-1.5">
               <img src="/logo.png" alt="People's Education Society emblem" className="w-full h-full object-contain" />
             </div>
             <div className="min-w-0">
