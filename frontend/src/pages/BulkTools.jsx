@@ -114,8 +114,8 @@ export function BulkTools() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-slate-900">Bulk Import / Export</h1>
-        <p className="text-slate-500 mt-1">Move data in and out of the portal via CSV</p>
+        <h1 className="text-3xl font-bold text-white">Bulk Import / Export</h1>
+        <p className="text-blue-100 mt-1">Move data in and out of the portal via CSV</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

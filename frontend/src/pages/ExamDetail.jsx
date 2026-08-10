@@ -174,19 +174,19 @@ export function ExamDetail() {
   }
 
   if (error) return <p className="text-danger">{error}</p>;
-  if (!exam) return <p className="text-slate-500">Loading…</p>;
+  if (!exam) return <p className="text-blue-100">Loading…</p>;
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
           <div className="flex items-center gap-2 flex-wrap">
-            <h1 className="text-3xl font-bold text-slate-900">{exam.title}</h1>
+            <h1 className="text-3xl font-bold text-white">{exam.title}</h1>
             <span className="px-2 py-0.5 rounded-md text-xs font-semibold border bg-blue-50 text-blue-700 border-blue-200">
               {EXAM_TYPE_LABELS[exam.exam_type] ?? exam.exam_type}
             </span>
           </div>
-          <p className="text-slate-500 mt-1">{exam.class_name} - {exam.class_section}</p>
+          <p className="text-blue-100 mt-1">{exam.class_name} - {exam.class_section}</p>
         </div>
         {canManage && (
           <div className="flex gap-3">

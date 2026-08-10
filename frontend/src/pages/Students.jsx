@@ -156,8 +156,8 @@ export function Students() {
     <div className="space-y-6">
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900">Students</h1>
-          <p className="text-slate-500 mt-1">{total} total students</p>
+          <h1 className="text-3xl font-bold text-white">Students</h1>
+          <p className="text-blue-100 mt-1">{total} total students</p>
         </div>
         {canManage && (
           <PrimaryButton className="flex items-center gap-2" onClick={openCreate}>

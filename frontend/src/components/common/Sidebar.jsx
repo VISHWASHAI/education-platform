@@ -34,21 +34,21 @@ export function Sidebar({ open, onClose }) {
       )}
 
       <aside
-        className={`w-64 shrink-0 h-screen fixed lg:sticky top-0 z-40 bg-navy-900 p-6 flex flex-col gap-8 transition-transform duration-300 ease-in-out ${
+        className={`w-64 shrink-0 h-screen fixed lg:sticky top-0 z-40 bg-white border-r border-slate-200 shadow-lg lg:shadow-none p-6 flex flex-col gap-8 transition-transform duration-300 ease-in-out ${
           open ? 'translate-x-0' : '-translate-x-full'
         } lg:translate-x-0`}
       >
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-3 min-w-0">
-            <div className="w-10 h-10 rounded-lg bg-white flex items-center justify-center shrink-0 p-1 shadow-sm">
+            <div className="w-10 h-10 rounded-lg bg-white border border-slate-200 flex items-center justify-center shrink-0 p-1">
               <img src="/logo.png" alt="People's Education Society emblem" className="w-full h-full object-contain" />
             </div>
             <div className="min-w-0">
-              <p className="text-sm font-bold text-white leading-tight truncate">People's Education Society</p>
-              <p className="text-[11px] text-navy-300 tracking-wide">Academic Portal</p>
+              <p className="text-sm font-bold text-slate-900 leading-tight truncate">People's Education Society</p>
+              <p className="text-[11px] text-slate-500 tracking-wide">Academic Portal</p>
             </div>
           </div>
-          <button onClick={onClose} className="text-navy-300 hover:text-white shrink-0 lg:hidden" aria-label="Close menu">
+          <button onClick={onClose} className="text-slate-400 hover:text-slate-900 shrink-0 lg:hidden" aria-label="Close menu">
             <X size={20} />
           </button>
         </div>
@@ -62,7 +62,7 @@ export function Sidebar({ open, onClose }) {
                 `flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${
                   isActive
                     ? 'bg-blue-600 text-white shadow-sm'
-                    : 'text-navy-200 hover:bg-navy-800 hover:text-white'
+                    : 'text-slate-600 hover:bg-blue-50 hover:text-slate-900'
                 }`
               }
             >

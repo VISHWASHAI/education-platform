@@ -52,8 +52,8 @@ export function Dashboard() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold text-slate-900">Dashboard</h1>
-        <p className="text-slate-500 mt-1">Overview of your institution</p>
+        <h1 className="text-3xl font-bold text-white">Dashboard</h1>
+        <p className="text-blue-100 mt-1">Overview of your institution</p>
       </div>
 
       {error && <p className="text-danger">{error}</p>}
