@@ -16,6 +16,31 @@ body {
   min-height: 100vh;
 }
 
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #1a1f6e;
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #12154d;
+}
+
+* {
+  scrollbar-color: #1a1f6e transparent;
+  scrollbar-width: thin;
+}
+
 @layer components {
   .glass-card {
     @apply bg-white border-2 border-slate-200 rounded-xl shadow-glass transition-all duration-200;
