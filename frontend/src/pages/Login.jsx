@@ -38,7 +38,7 @@ export function Login() {
             <img
               src="/founder.png"
               alt="Founder"
-              className="w-32 h-32 rounded-full object-cover border-2 border-slate-200 shadow-sm mx-auto"
+              className="w-32 h-32 rounded-full object-cover object-top border-2 border-slate-200 shadow-sm mx-auto"
             />
             <p className="text-xs font-semibold text-slate-500 tracking-wide uppercase mt-2">Founder</p>
           </div>
