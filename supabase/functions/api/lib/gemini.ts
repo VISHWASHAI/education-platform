@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
-const MODEL = Deno.env.get('GEMINI_MODEL') || 'gemini-2.0-flash';
+const MODEL = Deno.env.get('GEMINI_MODEL') || 'gemini-3.6-flash';
 
 interface FunctionDeclaration {
   name: string;
@@ -74,9 +74,12 @@ export async function runCopilotTurn(
     toolResult = { error: err instanceof Error ? err.message : 'Tool execution failed' };
   }
 
-  contents.push({ role: 'model', parts: [{ functionCall: call }] });
+  // Echo back the model's turn exactly as received (including any
+  // thoughtSignature on the functionCall part) — this model rejects a
+  // reconstructed part that's missing that field.
+  contents.push(first.candidates[0].content);
   contents.push({
-    role: 'function',
+    role: 'user',
     parts: [{ functionResponse: { name: call.name, response: { result: toolResult } } }],
   });
 
