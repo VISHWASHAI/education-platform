@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
-const MODEL = Deno.env.get('GEMINI_MODEL') || 'gemini-3.6-flash';
+const MODEL = Deno.env.get('GEMINI_MODEL') || 'gemini-3.5-flash-lite';
 
 interface FunctionDeclaration {
   name: string;
