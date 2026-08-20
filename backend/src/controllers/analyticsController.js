@@ -39,6 +39,88 @@ export async function getExamPerformance(req, res) {
   );
 }
 
+export async function getOverviewStats(req, res) {
+  const [students, teachers, thisMonthAttendance, lastMonthAttendance, examScore, studentGrowth] = await Promise.all([
+    query('SELECT COUNT(*) FROM students'),
+    query('SELECT COUNT(*) FROM teachers'),
+    query(
+      `SELECT COUNT(*) FILTER (WHERE status = 'present') AS present, COUNT(*) AS total
+       FROM attendance WHERE date >= date_trunc('month', CURRENT_DATE)`
+    ),
+    query(
+      `SELECT COUNT(*) FILTER (WHERE status = 'present') AS present, COUNT(*) AS total
+       FROM attendance
+       WHERE date >= date_trunc('month', CURRENT_DATE) - interval '1 month'
+         AND date < date_trunc('month', CURRENT_DATE)`
+    ),
+    query(`SELECT ROUND(AVG(total_score / NULLIF(max_score, 0) * 100)::numeric, 1) AS avg_score FROM exam_submissions WHERE status = 'graded'`),
+    query(
+      `SELECT COUNT(*) AS now_count, COUNT(*) FILTER (WHERE created_at <= now() - interval '30 days') AS then_count FROM students`
+    ),
+  ]);
+
+  const rate = (row) => (Number(row.total) ? Math.round((Number(row.present) / Number(row.total)) * 1000) / 10 : null);
+  const thisRate = rate(thisMonthAttendance.rows[0]);
+  const lastRate = rate(lastMonthAttendance.rows[0]);
+
+  const nowCount = Number(studentGrowth.rows[0].now_count);
+  const thenCount = Number(studentGrowth.rows[0].then_count);
+
+  res.json({
+    totalStudents: Number(students.rows[0].count),
+    totalTeachers: Number(teachers.rows[0].count),
+    attendanceRateThisMonth: thisRate,
+    attendanceTrendPct: thisRate !== null && lastRate !== null && lastRate !== 0 ? Math.round((thisRate - lastRate) * 10) / 10 : null,
+    avgExamScore: examScore.rows[0].avg_score === null ? null : Number(examScore.rows[0].avg_score),
+    studentsTrendPct: thenCount ? Math.round(((nowCount - thenCount) / thenCount) * 1000) / 10 : null,
+  });
+}
+
+export async function getStudentsByClass(req, res) {
+  const { rows } = await query(
+    `SELECT c.id AS class_id, c.name, c.section, COUNT(s.id) AS count
+     FROM classes c
+     LEFT JOIN students s ON s.class_id = c.id
+     GROUP BY c.id, c.name, c.section
+     ORDER BY c.name, c.section`
+  );
+  res.json(rows.map((r) => ({ classId: r.class_id, className: `${r.name} - ${r.section}`, count: Number(r.count) })));
+}
+
+export async function getTopPerformers(req, res) {
+  const { rows } = await query(
+    `SELECT s.full_name, c.name AS class_name, c.section AS class_section,
+            ROUND(AVG(es.total_score / NULLIF(es.max_score, 0) * 100)::numeric, 1) AS avg_score
+     FROM exam_submissions es
+     JOIN students s ON s.id = es.student_id
+     LEFT JOIN classes c ON c.id = s.class_id
+     WHERE es.status = 'graded'
+     GROUP BY s.id, s.full_name, c.name, c.section
+     ORDER BY avg_score DESC
+     LIMIT 5`
+  );
+  res.json(rows.map((r) => ({ fullName: r.full_name, className: r.class_name ? `${r.class_name} - ${r.class_section}` : null, avgScore: Number(r.avg_score) })));
+}
+
+export async function getMonthSummary(req, res) {
+  const { rows } = await query(
+    `SELECT
+       (SELECT COUNT(*) FROM students WHERE created_at >= date_trunc('month', now())) AS new_students,
+       (SELECT COUNT(*) FROM teachers WHERE created_at >= date_trunc('month', now())) AS new_teachers,
+       (SELECT COUNT(*) FROM assignments WHERE created_at >= date_trunc('month', now())) AS assignments_created,
+       (SELECT COUNT(*) FROM exams WHERE created_at >= date_trunc('month', now())) AS exams_created,
+       (SELECT COUNT(*) FROM announcements WHERE created_at >= date_trunc('month', now())) AS announcements_posted`
+  );
+  const r = rows[0];
+  res.json({
+    newStudents: Number(r.new_students),
+    newTeachers: Number(r.new_teachers),
+    assignmentsCreated: Number(r.assignments_created),
+    examsCreated: Number(r.exams_created),
+    announcementsPosted: Number(r.announcements_posted),
+  });
+}
+
 export async function getClassPerformance(req, res) {
   const [attendanceRows, examRows, classRows] = await Promise.all([
     query(
