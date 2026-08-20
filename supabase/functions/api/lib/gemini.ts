@@ -16,7 +16,13 @@ interface FunctionCall {
   args: Record<string, unknown>;
 }
 
-async function callGemini(body: unknown) {
+export class CopilotBusyError extends Error {}
+
+function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function callGemini(body: unknown, attempt = 0): Promise<any> {
   const apiKey = Deno.env.get('GEMINI_API_KEY');
   if (!apiKey) throw new Error('GEMINI_API_KEY is not configured');
 
@@ -28,6 +34,13 @@ async function callGemini(body: unknown) {
       body: JSON.stringify(body),
     }
   );
+  if (res.status === 429) {
+    if (attempt < 1) {
+      await sleep(4000);
+      return callGemini(body, attempt + 1);
+    }
+    throw new CopilotBusyError("The assistant is getting a lot of questions right now — try again in about a minute.");
+  }
   if (!res.ok) {
     const errText = await res.text();
     throw new Error(`Gemini API error (${res.status}): ${errText}`);

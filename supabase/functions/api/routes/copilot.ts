@@ -1,7 +1,7 @@
 import { Hono } from 'npm:hono@4';
 import { query } from '../lib/db.ts';
 import { requireAuth, JwtPayload } from '../lib/auth.ts';
-import { runCopilotTurn } from '../lib/gemini.ts';
+import { runCopilotTurn, CopilotBusyError } from '../lib/gemini.ts';
 
 const STAFF_ROLES = ['super_admin', 'head_master', 'group_coordinator', 'teacher', 'office_admin'];
 const FEE_ROLES = ['super_admin', 'head_master', 'office_admin'];
@@ -314,7 +314,10 @@ copilot.post('/', async (c) => {
     return c.json({ answer, toolUsed });
   } catch (err) {
     console.error('Copilot error:', err);
-    return c.json({ error: err instanceof Error ? err.message : 'Copilot request failed' }, 500);
+    if (err instanceof CopilotBusyError) {
+      return c.json({ error: err.message, busy: true }, 429);
+    }
+    return c.json({ error: 'Something went wrong answering that — please try again.' }, 500);
   }
 });
 
