@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 import { Navbar } from './Navbar';
+import { Copilot } from './Copilot';
 
 export function Layout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -26,6 +27,7 @@ export function Layout() {
           <Outlet />
         </main>
       </div>
+      <Copilot />
     </div>
   );
 }
