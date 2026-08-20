@@ -195,8 +195,8 @@ export function Fees() {
     <div className="space-y-6">
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-white">Fees</h1>
-          <p className="text-blue-100 mt-1">{canManageFees ? 'Financial management' : 'Your fee balances'}</p>
+          <h1 className="text-3xl font-bold text-slate-900">Fees</h1>
+          <p className="text-slate-500 mt-1">{canManageFees ? 'Financial management' : 'Your fee balances'}</p>
         </div>
         {canManageFees && (
           <div className="flex gap-3">

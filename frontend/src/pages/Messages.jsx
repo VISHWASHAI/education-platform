@@ -98,8 +98,8 @@ export function Messages() {
     <div className="space-y-6">
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-white">Messages</h1>
-          <p className="text-blue-100 mt-1">{conversations.length} conversations</p>
+          <h1 className="text-3xl font-bold text-slate-900">Messages</h1>
+          <p className="text-slate-500 mt-1">{conversations.length} conversations</p>
         </div>
         <div className="flex gap-3">
           {user?.role === 'student' && (

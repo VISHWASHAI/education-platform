@@ -67,8 +67,8 @@ export function Attendance() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-white">Attendance</h1>
-        <p className="text-blue-100 mt-1">Mark daily attendance for a class</p>
+        <h1 className="text-3xl font-bold text-slate-900">Attendance</h1>
+        <p className="text-slate-500 mt-1">Mark daily attendance for a class</p>
       </div>
 
       <GlassCard>

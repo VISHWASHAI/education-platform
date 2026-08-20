@@ -85,7 +85,7 @@ export function AssignmentDetail() {
   }
 
   if (error) return <p className="text-danger">{error}</p>;
-  if (!assignment) return <p className="text-blue-100">Loading…</p>;
+  if (!assignment) return <p className="text-slate-500">Loading…</p>;
 
   const isOverdue = assignment.due_at && new Date(assignment.due_at) < new Date();
 
@@ -93,8 +93,8 @@ export function AssignmentDetail() {
     <div className="space-y-6">
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-white">{assignment.title}</h1>
-          <p className="text-blue-100 mt-1">
+          <h1 className="text-3xl font-bold text-slate-900">{assignment.title}</h1>
+          <p className="text-slate-500 mt-1">
             {assignment.class_name} - {assignment.class_section}
             {assignment.due_at && (
               <span className={isOverdue ? 'text-danger' : ''}> · Due {new Date(assignment.due_at).toLocaleString()}</span>

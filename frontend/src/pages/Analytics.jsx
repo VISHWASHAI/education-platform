@@ -28,8 +28,8 @@ export function Analytics() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-white">Analytics</h1>
-        <p className="text-blue-100 mt-1">Institution-wide performance at a glance</p>
+        <h1 className="text-3xl font-bold text-slate-900">Analytics</h1>
+        <p className="text-slate-500 mt-1">Institution-wide performance at a glance</p>
       </div>
 
       {error && <p className="text-danger">{error}</p>}
