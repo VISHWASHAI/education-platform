@@ -4,6 +4,7 @@ import { api } from '../api/client';
 import { GlassCard } from '../components/shared/GlassCard';
 import { FormInput } from '../components/shared/FormInput';
 import { PrimaryButton } from '../components/shared/PrimaryButton';
+import { IconButton } from '../components/shared/IconButton';
 import { Modal } from '../components/shared/Modal';
 import { StatCard } from '../components/shared/StatCard';
 import { RevenueChart } from '../components/shared/RevenueChart';
@@ -213,9 +214,9 @@ export function Fees() {
 
       {canManageFees && summary && (
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-          <StatCard title="Total Billed" value={`₹${summary.totalBilled.toLocaleString('en-IN')}`} icon={DollarSign} />
-          <StatCard title="Total Collected" value={`₹${summary.totalCollected.toLocaleString('en-IN')}`} icon={TrendingUp} />
-          <StatCard title="Outstanding" value={`₹${summary.outstanding.toLocaleString('en-IN')}`} icon={AlertCircle} changeType="negative" />
+          <StatCard title="Total Billed" value={`₹${summary.totalBilled.toLocaleString('en-IN')}`} icon={DollarSign} color="blue" />
+          <StatCard title="Total Collected" value={`₹${summary.totalCollected.toLocaleString('en-IN')}`} icon={TrendingUp} color="green" />
+          <StatCard title="Outstanding" value={`₹${summary.outstanding.toLocaleString('en-IN')}`} icon={AlertCircle} changeType="negative" color="red" />
         </div>
       )}
 
@@ -271,7 +272,7 @@ export function Fees() {
                   <td className="py-3 text-slate-600">₹{Number(f.amount).toLocaleString('en-IN')}</td>
                   <td className="py-3 text-slate-600">₹{Number(f.amount_paid).toLocaleString('en-IN')}</td>
                   <td className="py-3">
-                    <span className={`px-2 py-1 rounded-md text-xs font-semibold border capitalize ${STATUS_COLORS[f.status]}`}>
+                    <span className={`px-3 py-1 rounded-full text-xs font-semibold border capitalize ${STATUS_COLORS[f.status]}`}>
                       {f.status}
                     </span>
                   </td>
@@ -398,13 +399,9 @@ export function Fees() {
               <div className="rounded-lg bg-slate-50 border border-slate-200 p-4 text-sm space-y-1">
                 <div className="flex items-center justify-between">
                   <p><span className="text-slate-500">Amount:</span> ₹{Number(feeDetail.amount).toLocaleString('en-IN')}</p>
-                  <div className="flex gap-3">
-                    <button onClick={() => setEditingFee(true)} className="text-slate-500 hover:text-blue-600 transition-colors duration-300" title="Edit">
-                      <Pencil size={14} />
-                    </button>
-                    <button onClick={deleteFee} className="text-slate-500 hover:text-danger transition-colors duration-300" title="Delete">
-                      <Trash2 size={14} />
-                    </button>
+                  <div className="flex gap-2">
+                    <IconButton icon={Pencil} variant="primary" title="Edit" onClick={() => setEditingFee(true)} />
+                    <IconButton icon={Trash2} variant="danger" title="Delete" onClick={deleteFee} />
                   </div>
                 </div>
                 <p><span className="text-slate-500">Paid:</span> ₹{Number(feeDetail.amount_paid).toLocaleString('en-IN')}</p>

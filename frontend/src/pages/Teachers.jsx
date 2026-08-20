@@ -4,6 +4,7 @@ import { api } from '../api/client';
 import { GlassCard } from '../components/shared/GlassCard';
 import { FormInput } from '../components/shared/FormInput';
 import { PrimaryButton } from '../components/shared/PrimaryButton';
+import { IconButton } from '../components/shared/IconButton';
 import { Modal } from '../components/shared/Modal';
 import { useAuth } from '../context/AuthContext';
 import { ADMIN_TRIO } from '../constants/roles';
@@ -173,26 +174,22 @@ export function Teachers() {
                       {canManage ? (
                         <button
                           onClick={() => toggleActive(t)}
-                          className={`px-2 py-1 rounded-md text-xs font-semibold border transition-colors duration-300 ${t.is_active ? 'bg-success/20 text-success border-success/40' : 'bg-danger/20 text-danger border-danger/40'}`}
+                          className={`px-3 py-1 rounded-full text-xs font-semibold border transition-colors duration-300 ${t.is_active ? 'bg-success/20 text-success border-success/40' : 'bg-danger/20 text-danger border-danger/40'}`}
                           title="Toggle active status"
                         >
                           {t.is_active ? 'Active' : 'Inactive'}
                         </button>
                       ) : (
-                        <span className={`px-2 py-1 rounded-md text-xs font-semibold border ${t.is_active ? 'bg-success/20 text-success border-success/40' : 'bg-danger/20 text-danger border-danger/40'}`}>
+                        <span className={`px-3 py-1 rounded-full text-xs font-semibold border ${t.is_active ? 'bg-success/20 text-success border-success/40' : 'bg-danger/20 text-danger border-danger/40'}`}>
                           {t.is_active ? 'Active' : 'Inactive'}
                         </span>
                       )}
                     </td>
                     {canManage && (
                       <td className="py-3">
-                        <div className="flex justify-end gap-3">
-                          <button onClick={() => openEdit(t)} className="text-slate-500 hover:text-blue-600 transition-colors duration-300" title="Edit">
-                            <Pencil size={15} />
-                          </button>
-                          <button onClick={() => handleDelete(t)} className="text-slate-500 hover:text-danger transition-colors duration-300" title="Delete">
-                            <Trash2 size={15} />
-                          </button>
+                        <div className="flex justify-end gap-2">
+                          <IconButton icon={Pencil} variant="primary" title="Edit" onClick={() => openEdit(t)} />
+                          <IconButton icon={Trash2} variant="danger" title="Delete" onClick={() => handleDelete(t)} />
                         </div>
                       </td>
                     )}
@@ -207,20 +204,8 @@ export function Teachers() {
           <div className="flex items-center justify-between mt-4 text-sm text-slate-500">
             <span>Page {page} of {totalPages}</span>
             <div className="flex gap-2">
-              <button
-                onClick={() => setPage((p) => Math.max(p - 1, 1))}
-                disabled={page <= 1}
-                className="p-2 rounded-lg bg-slate-50 border border-slate-200 disabled:opacity-40 hover:bg-slate-100 transition-colors duration-300"
-              >
-                <ChevronLeft size={16} />
-              </button>
-              <button
-                onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
-                disabled={page >= totalPages}
-                className="p-2 rounded-lg bg-slate-50 border border-slate-200 disabled:opacity-40 hover:bg-slate-100 transition-colors duration-300"
-              >
-                <ChevronRight size={16} />
-              </button>
+              <IconButton icon={ChevronLeft} title="Previous page" onClick={() => setPage((p) => Math.max(p - 1, 1))} disabled={page <= 1} variant="primary" />
+              <IconButton icon={ChevronRight} title="Next page" onClick={() => setPage((p) => Math.min(p + 1, totalPages))} disabled={page >= totalPages} variant="primary" />
             </div>
           </div>
         )}

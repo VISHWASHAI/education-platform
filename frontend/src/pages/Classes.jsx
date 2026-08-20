@@ -4,6 +4,7 @@ import { api } from '../api/client';
 import { GlassCard } from '../components/shared/GlassCard';
 import { FormInput } from '../components/shared/FormInput';
 import { PrimaryButton } from '../components/shared/PrimaryButton';
+import { IconButton } from '../components/shared/IconButton';
 import { Modal } from '../components/shared/Modal';
 import { useAuth } from '../context/AuthContext';
 import { ADMIN_TRIO } from '../constants/roles';
@@ -136,13 +137,9 @@ export function Classes() {
               <div className="flex items-center justify-between mt-4">
                 <p className="text-sm text-slate-600">{c.student_count} students</p>
                 {canManage && (
-                  <div className="flex gap-3">
-                    <button onClick={(e) => openEdit(c, e)} className="text-slate-500 hover:text-blue-600 transition-colors duration-300" title="Edit">
-                      <Pencil size={14} />
-                    </button>
-                    <button onClick={(e) => handleDelete(c, e)} className="text-slate-500 hover:text-danger transition-colors duration-300" title="Delete">
-                      <Trash2 size={14} />
-                    </button>
+                  <div className="flex gap-2">
+                    <IconButton icon={Pencil} variant="primary" title="Edit" onClick={(e) => openEdit(c, e)} />
+                    <IconButton icon={Trash2} variant="danger" title="Delete" onClick={(e) => handleDelete(c, e)} />
                   </div>
                 )}
               </div>
