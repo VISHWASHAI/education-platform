@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
-import { Plus, Send, Users2 } from 'lucide-react';
+import { Plus, Send, Users2, MessageSquare, MessageCircle, Search } from 'lucide-react';
 import { api } from '../api/client';
 import { GlassCard } from '../components/shared/GlassCard';
+import { FormInput } from '../components/shared/FormInput';
 import { PrimaryButton } from '../components/shared/PrimaryButton';
 import { Modal } from '../components/shared/Modal';
 import { useAuth } from '../context/AuthContext';
@@ -11,6 +12,7 @@ const POLL_INTERVAL_MS = 4000;
 export function Messages() {
   const { user } = useAuth();
   const [conversations, setConversations] = useState([]);
+  const [search, setSearch] = useState('');
   const [activeId, setActiveId] = useState(null);
   const [messages, setMessages] = useState([]);
   const [draft, setDraft] = useState('');
@@ -115,11 +117,22 @@ export function Messages() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <GlassCard className="lg:col-span-1 p-0 overflow-hidden">
+          <div className="p-4 border-b border-slate-100">
+            <div className="relative">
+              <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+              <FormInput
+                placeholder="Search conversations…"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="pl-11"
+              />
+            </div>
+          </div>
           {conversations.length === 0 ? (
             <p className="text-slate-500 p-6">No conversations yet.</p>
           ) : (
             <ul>
-              {conversations.map((c) => (
+              {conversations.filter((c) => conversationLabel(c).toLowerCase().includes(search.toLowerCase())).map((c) => (
                 <li key={c.id}>
                   <button
                     onClick={() => setActiveId(c.id)}
@@ -138,7 +151,21 @@ export function Messages() {
 
         <GlassCard className="lg:col-span-2 flex flex-col h-[560px]">
           {!activeId ? (
-            <div className="flex-1 flex items-center justify-center text-slate-500">Select a conversation</div>
+            <div className="flex-1 flex flex-col items-center justify-center text-center px-6">
+              <div className="relative w-24 h-24 mb-5">
+                <div className="absolute inset-0 rounded-full bg-blue-50" />
+                <div className="absolute top-2 left-1 w-14 h-14 rounded-2xl bg-blue-500 text-white flex items-center justify-center shadow-sm">
+                  <MessageSquare size={24} />
+                </div>
+                <div className="absolute bottom-1 right-0 w-11 h-11 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center shadow-sm">
+                  <MessageCircle size={18} />
+                </div>
+                <span className="absolute top-0 right-2 w-2 h-2 rounded-full bg-blue-300" />
+                <span className="absolute bottom-4 left-0 w-1.5 h-1.5 rounded-full bg-blue-300" />
+              </div>
+              <p className="text-slate-900 font-semibold">Select a conversation</p>
+              <p className="text-slate-500 text-sm mt-1 max-w-xs">Choose a conversation from the list to view messages.</p>
+            </div>
           ) : (
             <>
               <div className="flex-1 overflow-y-auto space-y-3 pr-1">

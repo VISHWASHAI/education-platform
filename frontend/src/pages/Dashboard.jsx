@@ -72,13 +72,14 @@ export function Dashboard() {
       </GlassCard>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <StatCard title="Total Students" value={overview?.totalStudents ?? '—'} icon={Users} />
-        <StatCard title="Total Teachers" value={overview?.totalTeachers ?? '—'} icon={GraduationCap} />
-        <StatCard title="Total Classes" value={overview?.totalClasses ?? '—'} icon={School} />
+        <StatCard title="Total Students" value={overview?.totalStudents ?? '—'} icon={Users} color="blue" />
+        <StatCard title="Total Teachers" value={overview?.totalTeachers ?? '—'} icon={GraduationCap} color="purple" />
+        <StatCard title="Total Classes" value={overview?.totalClasses ?? '—'} icon={School} color="orange" />
         <StatCard
           title="Attendance Rate Today"
           value={overview ? `${overview.attendanceRateToday}%` : '—'}
           icon={CalendarCheck}
+          color="green"
         />
       </div>
 

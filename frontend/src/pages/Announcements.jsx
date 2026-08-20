@@ -4,6 +4,7 @@ import { api } from '../api/client';
 import { GlassCard } from '../components/shared/GlassCard';
 import { FormInput } from '../components/shared/FormInput';
 import { PrimaryButton } from '../components/shared/PrimaryButton';
+import { IconButton } from '../components/shared/IconButton';
 import { Modal } from '../components/shared/Modal';
 import { useAuth } from '../context/AuthContext';
 
@@ -101,21 +102,17 @@ export function Announcements() {
                     <span>By {a.created_by_name}</span>
                     <span>·</span>
                     <span>{new Date(a.created_at).toLocaleDateString()}</span>
-                    {a.target_role && <span className="px-2 py-0.5 rounded-md bg-blue-50 border border-blue-200 capitalize">{a.target_role.replace('_', ' ')}</span>}
-                    {a.class_name && <span className="px-2 py-0.5 rounded-md bg-blue-50 border border-blue-200">{a.class_name} - {a.class_section}</span>}
+                    {a.target_role && <span className="px-2.5 py-0.5 rounded-full bg-blue-50 border border-blue-200 text-blue-700 font-medium capitalize">{a.target_role.replace('_', ' ')}</span>}
+                    {a.class_name && <span className="px-2.5 py-0.5 rounded-full bg-blue-50 border border-blue-200 text-blue-700 font-medium">{a.class_name} - {a.class_section}</span>}
                     {isStaff && a.status !== 'published' && (
-                      <span className="px-2 py-0.5 rounded-md bg-warning/20 border border-warning/40 text-warning capitalize">{a.status}</span>
+                      <span className="px-2.5 py-0.5 rounded-full bg-warning/20 border border-warning/40 text-warning font-medium capitalize">{a.status}</span>
                     )}
                   </div>
                 </div>
                 {isStaff && (
-                  <div className="flex gap-3">
-                    <button onClick={() => togglePin(a)} title="Toggle pin" className="text-slate-500 hover:text-blue-600 transition-colors duration-300">
-                      <Pin size={16} />
-                    </button>
-                    <button onClick={() => remove(a.id)} title="Delete" className="text-slate-500 hover:text-danger transition-colors duration-300">
-                      <Trash2 size={16} />
-                    </button>
+                  <div className="flex gap-2">
+                    <IconButton icon={Pin} title="Toggle pin" onClick={() => togglePin(a)} variant={a.is_pinned ? 'active' : 'default'} />
+                    <IconButton icon={Trash2} title="Delete" onClick={() => remove(a.id)} variant="danger" />
                   </div>
                 )}
               </div>
