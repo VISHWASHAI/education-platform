@@ -107,8 +107,12 @@ export function Gallery() {
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
           {photos.map((p) => (
             <div key={p.id} className="glass-card overflow-hidden group relative">
-              <button onClick={() => setViewing(p)} className="block w-full">
-                <img src={p.image_data} alt={p.caption || 'School photo'} className="w-full aspect-square object-cover cursor-zoom-in" />
+              <button onClick={() => setViewing(p)} className="block w-full overflow-hidden">
+                <img
+                  src={p.image_data}
+                  alt={p.caption || 'School photo'}
+                  className="w-full aspect-square object-cover cursor-zoom-in transition-transform duration-300 group-hover:scale-105"
+                />
               </button>
               {(p.caption || p.uploaded_by_name) && (
                 <div className="p-3">

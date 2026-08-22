@@ -122,7 +122,7 @@ export function Classes() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {classes.map((c) => (
-            <GlassCard key={c.id} className="cursor-pointer" onClick={() => openRoster(c)}>
+            <GlassCard key={c.id} className="glass-card-interactive" onClick={() => openRoster(c)}>
               <div className="flex items-start justify-between">
                 <div>
                   <h3 className="text-lg font-semibold text-slate-900">{c.name} - {c.section}</h3>
@@ -130,7 +130,7 @@ export function Classes() {
                     {c.lead_teacher_name ? `Led by ${c.lead_teacher_name}` : 'No lead teacher assigned'}
                   </p>
                 </div>
-                <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600">
+                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-blue-700 text-white flex items-center justify-center shadow-sm">
                   <Users size={20} />
                 </div>
               </div>

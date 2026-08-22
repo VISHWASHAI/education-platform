@@ -88,7 +88,7 @@ export function Dashboard() {
           <Link
             key={to}
             to={to}
-            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-50 border border-slate-200 text-sm text-slate-700 hover:bg-blue-50 hover:border-blue-200 hover:text-slate-900 transition-all duration-300"
+            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-50 border border-slate-200 text-sm text-slate-700 hover:text-white hover:border-transparent hover:shadow-md hover:-translate-y-0.5 hover:bg-gradient-to-r hover:from-blue-600 hover:to-blue-800 transition-all duration-300"
           >
             <Icon size={15} /> {label}
           </Link>

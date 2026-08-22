@@ -13,7 +13,7 @@ export function IconButton({ icon: Icon, onClick, variant = 'default', title, si
       aria-label={title}
       type="button"
       disabled={disabled}
-      className={`w-9 h-9 rounded-lg border flex items-center justify-center transition-colors duration-200 shrink-0 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white ${VARIANTS[variant]}`}
+      className={`w-9 h-9 rounded-lg border flex items-center justify-center transition-all duration-200 shrink-0 hover:scale-105 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:scale-100 ${VARIANTS[variant]}`}
     >
       <Icon size={size} />
     </button>

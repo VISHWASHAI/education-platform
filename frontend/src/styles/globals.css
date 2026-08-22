@@ -50,6 +50,10 @@ body {
     @apply border-blue-300 shadow-glass-hover;
   }
 
+  .glass-card-interactive:hover {
+    @apply border-blue-300 shadow-glass-hover -translate-y-0.5 cursor-pointer;
+  }
+
   .btn-primary {
     background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
     @apply text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
