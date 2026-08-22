@@ -5,6 +5,7 @@ import { GlassCard } from '../components/shared/GlassCard';
 import { FormInput } from '../components/shared/FormInput';
 import { PrimaryButton } from '../components/shared/PrimaryButton';
 import { IconButton } from '../components/shared/IconButton';
+import { SkeletonCardList } from '../components/shared/Skeleton';
 import { Modal } from '../components/shared/Modal';
 import { useAuth } from '../context/AuthContext';
 
@@ -84,7 +85,7 @@ export function Announcements() {
       {error && <p className="text-danger">{error}</p>}
 
       {loading ? (
-        <p className="text-slate-500">Loading…</p>
+        <SkeletonCardList count={3} />
       ) : announcements.length === 0 ? (
         <GlassCard><p className="text-slate-500">No announcements yet.</p></GlassCard>
       ) : (

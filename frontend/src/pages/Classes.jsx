@@ -5,6 +5,7 @@ import { GlassCard } from '../components/shared/GlassCard';
 import { FormInput } from '../components/shared/FormInput';
 import { PrimaryButton } from '../components/shared/PrimaryButton';
 import { IconButton } from '../components/shared/IconButton';
+import { Skeleton } from '../components/shared/Skeleton';
 import { Modal } from '../components/shared/Modal';
 import { useAuth } from '../context/AuthContext';
 import { useUI } from '../context/UIContext';
@@ -122,7 +123,14 @@ export function Classes() {
       {error && <p className="text-danger">{error}</p>}
 
       {loading ? (
-        <p className="text-slate-500">Loading…</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <div key={i} className="glass-card p-6">
+              <Skeleton className="h-5 w-2/3 mb-3" />
+              <Skeleton className="h-3 w-1/2" />
+            </div>
+          ))}
+        </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {classes.map((c) => (
@@ -181,7 +189,11 @@ export function Classes() {
       {roster && (
         <Modal title={`${roster.cls.name} - ${roster.cls.section} Roster`} onClose={() => setRoster(null)}>
           {roster.students === null ? (
-            <p className="text-slate-500">Loading…</p>
+            <div className="space-y-2">
+              {Array.from({ length: 3 }).map((_, i) => (
+                <Skeleton key={i} className="h-10" />
+              ))}
+            </div>
           ) : roster.students.length === 0 ? (
             <p className="text-slate-500">No students assigned to this class yet.</p>
           ) : (

@@ -7,6 +7,7 @@ import { LineChart } from '../components/shared/LineChart';
 import { PercentBarChart } from '../components/shared/PercentBarChart';
 import { GroupedBarChart } from '../components/shared/GroupedBarChart';
 import { CategoryBarList } from '../components/shared/CategoryBarList';
+import { Skeleton, SkeletonStatRow, SkeletonChart } from '../components/shared/Skeleton';
 
 function trendLabel(pct) {
   if (pct === null || pct === undefined) return null;
@@ -63,31 +64,35 @@ export function Analytics() {
 
       {error && <p className="text-danger">{error}</p>}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <StatCard
-          title="Total Students"
-          value={overview?.totalStudents ?? '—'}
-          change={trendLabel(overview?.studentsTrendPct)}
-          changeType={overview?.studentsTrendPct >= 0 ? 'positive' : 'negative'}
-          icon={Users}
-          color="blue"
-        />
-        <StatCard title="Total Teachers" value={overview?.totalTeachers ?? '—'} icon={GraduationCap} color="purple" />
-        <StatCard
-          title="Attendance Rate (This Month)"
-          value={overview ? (overview.attendanceRateThisMonth !== null ? `${overview.attendanceRateThisMonth}%` : '—') : '—'}
-          change={trendLabel(overview?.attendanceTrendPct)}
-          changeType={overview?.attendanceTrendPct >= 0 ? 'positive' : 'negative'}
-          icon={CalendarCheck}
-          color="green"
-        />
-        <StatCard
-          title="Average Exam Score"
-          value={overview ? (overview.avgExamScore !== null ? `${overview.avgExamScore}%` : '—') : '—'}
-          icon={Award}
-          color="orange"
-        />
-      </div>
+      {overview ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <StatCard
+            title="Total Students"
+            value={overview.totalStudents}
+            change={trendLabel(overview.studentsTrendPct)}
+            changeType={overview.studentsTrendPct >= 0 ? 'positive' : 'negative'}
+            icon={Users}
+            color="blue"
+          />
+          <StatCard title="Total Teachers" value={overview.totalTeachers} icon={GraduationCap} color="purple" />
+          <StatCard
+            title="Attendance Rate (This Month)"
+            value={overview.attendanceRateThisMonth !== null ? `${overview.attendanceRateThisMonth}%` : '—'}
+            change={trendLabel(overview.attendanceTrendPct)}
+            changeType={overview.attendanceTrendPct >= 0 ? 'positive' : 'negative'}
+            icon={CalendarCheck}
+            color="green"
+          />
+          <StatCard
+            title="Average Exam Score"
+            value={overview.avgExamScore !== null ? `${overview.avgExamScore}%` : '—'}
+            icon={Award}
+            color="orange"
+          />
+        </div>
+      ) : (
+        <SkeletonStatRow />
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <GlassCard>
@@ -95,7 +100,14 @@ export function Analytics() {
           {studentsByClass ? (
             <CategoryBarList data={studentsByClass} labelKey="className" valueKey="count" />
           ) : (
-            <p className="text-slate-500">Loading…</p>
+            <div className="space-y-4">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <div key={i}>
+                  <Skeleton className="h-4 w-1/3 mb-2" />
+                  <Skeleton className="h-2.5 w-full rounded-full" />
+                </div>
+              ))}
+            </div>
           )}
         </GlassCard>
 
@@ -124,7 +136,14 @@ export function Analytics() {
               </ul>
             )
           ) : (
-            <p className="text-slate-500">Loading…</p>
+            <div className="space-y-3">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <div key={i} className="flex items-center gap-3">
+                  <Skeleton className="w-8 h-8 rounded-full shrink-0" />
+                  <Skeleton className="h-4 flex-1" />
+                </div>
+              ))}
+            </div>
           )}
         </GlassCard>
       </div>
@@ -134,7 +153,7 @@ export function Analytics() {
         {attendanceTrend ? (
           <LineChart data={attendanceTrend} labelKey="date" valueKey="presentRate" />
         ) : (
-          <p className="text-slate-500">Loading…</p>
+          <SkeletonChart />
         )}
       </GlassCard>
 
@@ -143,7 +162,7 @@ export function Analytics() {
         {examPerformance ? (
           <PercentBarChart data={examPerformance} labelKey="title" valueKey="avgPercentage" />
         ) : (
-          <p className="text-slate-500">Loading…</p>
+          <SkeletonChart height={180} />
         )}
       </GlassCard>
 
@@ -159,7 +178,7 @@ export function Analytics() {
             ]}
           />
         ) : (
-          <p className="text-slate-500">Loading…</p>
+          <SkeletonChart height={180} />
         )}
       </GlassCard>
 
@@ -180,7 +199,11 @@ export function Analytics() {
             ))}
           </div>
         ) : (
-          <p className="text-slate-500">Loading…</p>
+          <div className="grid grid-cols-2 sm:grid-cols-5 gap-4">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <Skeleton key={i} className="h-[60px]" />
+            ))}
+          </div>
         )}
       </GlassCard>
     </div>

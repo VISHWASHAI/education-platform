@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { api } from '../api/client';
 import { GlassCard } from '../components/shared/GlassCard';
 import { FormInput } from '../components/shared/FormInput';
+import { SkeletonTableRows } from '../components/shared/Skeleton';
 import { useAuth } from '../context/AuthContext';
 
 const emptyFilters = { entity: '', action: '', dateFrom: '', dateTo: '' };
@@ -93,7 +94,7 @@ export function AuditLog() {
             </thead>
             <tbody>
               {loading ? (
-                <tr><td colSpan={5} className="py-6 text-center text-slate-500">Loading…</td></tr>
+                <SkeletonTableRows columns={5} />
               ) : entries.length === 0 ? (
                 <tr><td colSpan={5} className="py-6 text-center text-slate-500">No matching entries</td></tr>
               ) : (

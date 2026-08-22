@@ -8,6 +8,7 @@ import { PrimaryButton } from '../components/shared/PrimaryButton';
 import { Modal } from '../components/shared/Modal';
 import { useAuth } from '../context/AuthContext';
 import { useUI } from '../context/UIContext';
+import { Skeleton } from '../components/shared/Skeleton';
 import { ACADEMIC_STAFF } from '../constants/roles';
 
 const emptyQuestion = { questionText: '', questionType: 'mcq', options: ['', '', '', ''], correctAnswer: '0', defaultMarks: 1 };
@@ -183,7 +184,15 @@ export function ExamDetail() {
   }
 
   if (error) return <p className="text-danger">{error}</p>;
-  if (!exam) return <p className="text-slate-500">Loading…</p>;
+  if (!exam) return (
+    <div className="space-y-6">
+      <Skeleton className="h-8 w-1/3" />
+      <div className="glass-card p-6">
+        <Skeleton className="h-4 w-full mb-2" />
+        <Skeleton className="h-4 w-2/3" />
+      </div>
+    </div>
+  );
 
   return (
     <div className="space-y-6">

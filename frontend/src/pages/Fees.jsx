@@ -5,6 +5,7 @@ import { GlassCard } from '../components/shared/GlassCard';
 import { FormInput } from '../components/shared/FormInput';
 import { PrimaryButton } from '../components/shared/PrimaryButton';
 import { IconButton } from '../components/shared/IconButton';
+import { Skeleton, SkeletonStatRow } from '../components/shared/Skeleton';
 import { Modal } from '../components/shared/Modal';
 import { StatCard } from '../components/shared/StatCard';
 import { RevenueChart } from '../components/shared/RevenueChart';
@@ -220,13 +221,15 @@ export function Fees() {
 
       {error && <p className="text-danger">{error}</p>}
 
-      {canManageFees && summary && (
+      {canManageFees && (summary ? (
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
           <StatCard title="Total Billed" value={`₹${summary.totalBilled.toLocaleString('en-IN')}`} icon={DollarSign} color="blue" />
           <StatCard title="Total Collected" value={`₹${summary.totalCollected.toLocaleString('en-IN')}`} icon={TrendingUp} color="green" />
           <StatCard title="Outstanding" value={`₹${summary.outstanding.toLocaleString('en-IN')}`} icon={AlertCircle} changeType="negative" color="red" />
         </div>
-      )}
+      ) : (
+        <SkeletonStatRow count={3} />
+      ))}
 
       {canManageFees && summary && (
         <GlassCard>
@@ -247,7 +250,11 @@ export function Fees() {
           )}
         </div>
         {loading ? (
-          <p className="text-slate-500">Loading…</p>
+          <div className="space-y-3">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <Skeleton key={i} className="h-10" />
+            ))}
+          </div>
         ) : (canManageFees ? fees : myFees).length === 0 ? (
           <p className="text-slate-500">No fee records found.</p>
         ) : (

@@ -6,6 +6,7 @@ import { GlassCard } from '../components/shared/GlassCard';
 import { FormInput } from '../components/shared/FormInput';
 import { PrimaryButton } from '../components/shared/PrimaryButton';
 import { Modal } from '../components/shared/Modal';
+import { Skeleton } from '../components/shared/Skeleton';
 import { useAuth } from '../context/AuthContext';
 import { ACADEMIC_STAFF } from '../constants/roles';
 
@@ -79,7 +80,15 @@ export function Assignments() {
       {error && <p className="text-danger">{error}</p>}
 
       {loading ? (
-        <p className="text-slate-500">Loading…</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <div key={i} className="glass-card p-6">
+              <Skeleton className="h-5 w-2/3 mb-3" />
+              <Skeleton className="h-3 w-1/2 mb-4" />
+              <Skeleton className="h-6 w-20" />
+            </div>
+          ))}
+        </div>
       ) : assignments.length === 0 ? (
         <GlassCard><p className="text-slate-500">No assignments yet.</p></GlassCard>
       ) : (

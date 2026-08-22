@@ -5,6 +5,7 @@ import { api } from '../api/client';
 import { GlassCard } from '../components/shared/GlassCard';
 import { PrimaryButton } from '../components/shared/PrimaryButton';
 import { Modal } from '../components/shared/Modal';
+import { Skeleton } from '../components/shared/Skeleton';
 import { useAuth } from '../context/AuthContext';
 import { ACADEMIC_STAFF } from '../constants/roles';
 
@@ -85,7 +86,15 @@ export function AssignmentDetail() {
   }
 
   if (error) return <p className="text-danger">{error}</p>;
-  if (!assignment) return <p className="text-slate-500">Loading…</p>;
+  if (!assignment) return (
+    <div className="space-y-6">
+      <Skeleton className="h-8 w-1/3" />
+      <div className="glass-card p-6">
+        <Skeleton className="h-4 w-full mb-2" />
+        <Skeleton className="h-4 w-2/3" />
+      </div>
+    </div>
+  );
 
   const isOverdue = assignment.due_at && new Date(assignment.due_at) < new Date();
 
@@ -117,7 +126,7 @@ export function AssignmentDetail() {
         <GlassCard>
           <h3 className="text-xl font-semibold text-slate-800 mb-4">Your Submission</h3>
           {mySubmission === undefined ? (
-            <p className="text-slate-500">Loading…</p>
+            <Skeleton className="h-16 w-full" />
           ) : mySubmission ? (
             <div className="space-y-3">
               <div className="flex items-center gap-2">

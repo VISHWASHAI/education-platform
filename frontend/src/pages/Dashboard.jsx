@@ -4,6 +4,7 @@ import { Users, GraduationCap, School, CalendarCheck, FileText, ClipboardList, D
 import { api } from '../api/client';
 import { StatCard } from '../components/shared/StatCard';
 import { GlassCard } from '../components/shared/GlassCard';
+import { Skeleton, SkeletonStatRow } from '../components/shared/Skeleton';
 import { useAuth } from '../context/AuthContext';
 import { ALL_STAFF } from '../constants/roles';
 
@@ -71,17 +72,16 @@ export function Dashboard() {
         </div>
       </GlassCard>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <StatCard title="Total Students" value={overview?.totalStudents ?? '—'} icon={Users} color="blue" />
-        <StatCard title="Total Teachers" value={overview?.totalTeachers ?? '—'} icon={GraduationCap} color="purple" />
-        <StatCard title="Total Classes" value={overview?.totalClasses ?? '—'} icon={School} color="orange" />
-        <StatCard
-          title="Attendance Rate Today"
-          value={overview ? `${overview.attendanceRateToday}%` : '—'}
-          icon={CalendarCheck}
-          color="green"
-        />
-      </div>
+      {overview ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <StatCard title="Total Students" value={overview.totalStudents} icon={Users} color="blue" />
+          <StatCard title="Total Teachers" value={overview.totalTeachers} icon={GraduationCap} color="purple" />
+          <StatCard title="Total Classes" value={overview.totalClasses} icon={School} color="orange" />
+          <StatCard title="Attendance Rate Today" value={`${overview.attendanceRateToday}%`} icon={CalendarCheck} color="green" />
+        </div>
+      ) : (
+        <SkeletonStatRow />
+      )}
 
       <div className="flex flex-wrap gap-3">
         {QUICK_LINKS.filter((link) => !link.roles || link.roles.includes(user?.role)).map(({ to, label, icon: Icon }) => (
@@ -108,7 +108,11 @@ export function Dashboard() {
               ))}
             </div>
           ) : (
-            <p className="text-slate-500">Loading…</p>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <Skeleton key={i} className="h-[68px]" />
+              ))}
+            </div>
           )}
         </GlassCard>
 
@@ -118,7 +122,11 @@ export function Dashboard() {
             <h3 className="text-xl font-semibold text-slate-800">Due in the Next 7 Days</h3>
           </div>
           {deadlines === null ? (
-            <p className="text-slate-500">Loading…</p>
+            <div className="space-y-2">
+              {Array.from({ length: 3 }).map((_, i) => (
+                <Skeleton key={i} className="h-[52px]" />
+              ))}
+            </div>
           ) : deadlines.length === 0 ? (
             <p className="text-slate-500">Nothing due soon.</p>
           ) : (
@@ -151,7 +159,11 @@ export function Dashboard() {
             <h3 className="text-xl font-semibold text-slate-800">Recent Activity</h3>
           </div>
           {activity === null ? (
-            <p className="text-slate-500">Loading…</p>
+            <div className="space-y-2">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <Skeleton key={i} className="h-5" style={{ width: `${70 - i * 8}%` }} />
+              ))}
+            </div>
           ) : activity.length === 0 ? (
             <p className="text-slate-500">No recent activity.</p>
           ) : (

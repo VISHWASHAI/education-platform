@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { api } from '../api/client';
 import { GlassCard } from '../components/shared/GlassCard';
 import { PrimaryButton } from '../components/shared/PrimaryButton';
+import { Skeleton } from '../components/shared/Skeleton';
 import { useAuth } from '../context/AuthContext';
 import { ALL_STAFF } from '../constants/roles';
 
@@ -99,7 +100,11 @@ export function Attendance() {
         </div>
 
         {loading ? (
-          <p className="text-slate-500">Loading…</p>
+          <div className="space-y-2">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <Skeleton key={i} className="h-[54px]" />
+            ))}
+          </div>
         ) : rows.length === 0 ? (
           <p className="text-slate-500">No students found in this class.</p>
         ) : (

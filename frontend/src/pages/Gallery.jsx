@@ -4,6 +4,7 @@ import { api } from '../api/client';
 import { GlassCard } from '../components/shared/GlassCard';
 import { PrimaryButton } from '../components/shared/PrimaryButton';
 import { Modal } from '../components/shared/Modal';
+import { Skeleton } from '../components/shared/Skeleton';
 import { useAuth } from '../context/AuthContext';
 import { ALL_STAFF } from '../constants/roles';
 
@@ -95,7 +96,11 @@ export function Gallery() {
       {error && <p className="text-danger">{error}</p>}
 
       {loading ? (
-        <p className="text-slate-500">Loading…</p>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+          {Array.from({ length: 8 }).map((_, i) => (
+            <Skeleton key={i} className="aspect-square" />
+          ))}
+        </div>
       ) : photos.length === 0 ? (
         <GlassCard>
           <div className="flex flex-col items-center gap-3 py-8 text-slate-500">

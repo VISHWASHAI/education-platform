@@ -5,6 +5,7 @@ import { GlassCard } from '../components/shared/GlassCard';
 import { FormInput } from '../components/shared/FormInput';
 import { PrimaryButton } from '../components/shared/PrimaryButton';
 import { IconButton } from '../components/shared/IconButton';
+import { SkeletonTableRows } from '../components/shared/Skeleton';
 import { Modal } from '../components/shared/Modal';
 import { useAuth } from '../context/AuthContext';
 import { useUI } from '../context/UIContext';
@@ -203,9 +204,7 @@ export function Students() {
             </thead>
             <tbody>
               {loading ? (
-                <tr>
-                  <td colSpan={canManage ? 6 : 4} className="py-6 text-center text-slate-500">Loading…</td>
-                </tr>
+                <SkeletonTableRows columns={canManage ? 6 : 4} />
               ) : students.length === 0 ? (
                 <tr>
                   <td colSpan={canManage ? 6 : 4} className="py-6 text-center text-slate-500">No students found</td>
