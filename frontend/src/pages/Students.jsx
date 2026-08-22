@@ -7,6 +7,7 @@ import { PrimaryButton } from '../components/shared/PrimaryButton';
 import { IconButton } from '../components/shared/IconButton';
 import { Modal } from '../components/shared/Modal';
 import { useAuth } from '../context/AuthContext';
+import { useUI } from '../context/UIContext';
 import { ADMIN_TRIO } from '../constants/roles';
 
 const emptyForm = { admissionNo: '', fullName: '', email: '', classId: '', guardianName: '', guardianContact: '', dateOfBirth: '' };
@@ -14,6 +15,7 @@ const PAGE_SIZE = 20;
 
 export function Students() {
   const { user } = useAuth();
+  const { confirm, showToast } = useUI();
   const canManage = ADMIN_TRIO.includes(user?.role);
   const [students, setStudents] = useState([]);
   const [classes, setClasses] = useState([]);
@@ -120,12 +122,19 @@ export function Students() {
   }
 
   async function handleDelete(s) {
-    if (!window.confirm(`Remove ${s.full_name} (${s.admission_no})? This cannot be undone.`)) return;
+    const ok = await confirm({
+      title: 'Remove student?',
+      message: `Remove ${s.full_name} (${s.admission_no})? This cannot be undone.`,
+      confirmLabel: 'Remove',
+      danger: true,
+    });
+    if (!ok) return;
     try {
       await api.delete(`/students/${s.id}`);
+      showToast('Student removed.');
       load();
     } catch (err) {
-      alert(err.response?.data?.error || 'Could not delete student');
+      showToast(err.response?.data?.error || 'Could not delete student', 'error');
     }
   }
 

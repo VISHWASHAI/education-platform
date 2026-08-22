@@ -9,6 +9,7 @@ import { Modal } from '../components/shared/Modal';
 import { StatCard } from '../components/shared/StatCard';
 import { RevenueChart } from '../components/shared/RevenueChart';
 import { useAuth } from '../context/AuthContext';
+import { useUI } from '../context/UIContext';
 import { ADMIN_TRIO } from '../constants/roles';
 
 const STATUS_COLORS = {
@@ -23,6 +24,7 @@ const paymentForm0 = { amount: '', method: 'cash' };
 
 export function Fees() {
   const { user } = useAuth();
+  const { confirm, showToast } = useUI();
   const canManageFees = ADMIN_TRIO.includes(user?.role);
   const isStudent = user?.role === 'student';
 
@@ -138,10 +140,16 @@ export function Fees() {
   }
 
   async function deleteFee() {
-    if (!window.confirm('Delete this fee record? This cannot be undone.')) return;
-    await api.delete(`/fees/${feeDetail.id}`);
-    setFeeDetail(null);
-    load();
+    const ok = await confirm({ title: 'Delete fee record?', message: 'This cannot be undone.', confirmLabel: 'Delete', danger: true });
+    if (!ok) return;
+    try {
+      await api.delete(`/fees/${feeDetail.id}`);
+      setFeeDetail(null);
+      showToast('Fee record deleted.');
+      load();
+    } catch (err) {
+      showToast(err.response?.data?.error || 'Could not delete fee record', 'error');
+    }
   }
 
   async function recordPayment(e) {

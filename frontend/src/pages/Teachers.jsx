@@ -7,6 +7,7 @@ import { PrimaryButton } from '../components/shared/PrimaryButton';
 import { IconButton } from '../components/shared/IconButton';
 import { Modal } from '../components/shared/Modal';
 import { useAuth } from '../context/AuthContext';
+import { useUI } from '../context/UIContext';
 import { ADMIN_TRIO } from '../constants/roles';
 
 const emptyForm = { fullName: '', email: '', department: '', specialization: '' };
@@ -14,6 +15,7 @@ const PAGE_SIZE = 20;
 
 export function Teachers() {
   const { user } = useAuth();
+  const { confirm, showToast } = useUI();
   const canManage = ADMIN_TRIO.includes(user?.role);
   const [teachers, setTeachers] = useState([]);
   const [search, setSearch] = useState('');
@@ -108,12 +110,19 @@ export function Teachers() {
   }
 
   async function handleDelete(t) {
-    if (!window.confirm(`Remove ${t.full_name}? This deletes their account and cannot be undone.`)) return;
+    const ok = await confirm({
+      title: 'Remove teacher?',
+      message: `Remove ${t.full_name}? This deletes their account and cannot be undone.`,
+      confirmLabel: 'Remove',
+      danger: true,
+    });
+    if (!ok) return;
     try {
       await api.delete(`/teachers/${t.id}`);
+      showToast('Teacher removed.');
       load();
     } catch (err) {
-      alert(err.response?.data?.error || 'Could not delete teacher');
+      showToast(err.response?.data?.error || 'Could not delete teacher', 'error');
     }
   }
 

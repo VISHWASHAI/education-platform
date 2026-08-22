@@ -7,6 +7,7 @@ import { FormInput } from '../components/shared/FormInput';
 import { PrimaryButton } from '../components/shared/PrimaryButton';
 import { Modal } from '../components/shared/Modal';
 import { useAuth } from '../context/AuthContext';
+import { useUI } from '../context/UIContext';
 import { ACADEMIC_STAFF } from '../constants/roles';
 
 const emptyQuestion = { questionText: '', questionType: 'mcq', options: ['', '', '', ''], correctAnswer: '0', defaultMarks: 1 };
@@ -23,6 +24,7 @@ export function ExamDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { confirm, showToast } = useUI();
   const canManage = ACADEMIC_STAFF.includes(user?.role);
   const isStudent = user?.role === 'student';
 
@@ -92,12 +94,19 @@ export function ExamDetail() {
   }
 
   async function handleDeleteExam() {
-    if (!window.confirm(`Delete "${exam.title}"? This removes all questions and submissions for this exam.`)) return;
+    const ok = await confirm({
+      title: 'Delete exam?',
+      message: `Delete "${exam.title}"? This removes all questions and submissions for this exam.`,
+      confirmLabel: 'Delete',
+      danger: true,
+    });
+    if (!ok) return;
     try {
       await api.delete(`/exams/${id}`);
+      showToast('Exam deleted.');
       navigate('/exams');
     } catch (err) {
-      alert(err.response?.data?.error || 'Could not delete exam');
+      showToast(err.response?.data?.error || 'Could not delete exam', 'error');
     }
   }
 

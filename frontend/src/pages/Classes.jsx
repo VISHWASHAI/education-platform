@@ -7,12 +7,14 @@ import { PrimaryButton } from '../components/shared/PrimaryButton';
 import { IconButton } from '../components/shared/IconButton';
 import { Modal } from '../components/shared/Modal';
 import { useAuth } from '../context/AuthContext';
+import { useUI } from '../context/UIContext';
 import { ADMIN_TRIO } from '../constants/roles';
 
 const emptyForm = { name: '', section: '', leadTeacherId: '' };
 
 export function Classes() {
   const { user } = useAuth();
+  const { confirm, showToast } = useUI();
   const canManage = ADMIN_TRIO.includes(user?.role);
   const [classes, setClasses] = useState([]);
   const [teachers, setTeachers] = useState([]);
@@ -86,12 +88,14 @@ export function Classes() {
 
   async function handleDelete(cls, e) {
     e.stopPropagation();
-    if (!window.confirm(`Delete ${cls.name} - ${cls.section}?`)) return;
+    const ok = await confirm({ title: 'Delete class?', message: `Delete ${cls.name} - ${cls.section}?`, confirmLabel: 'Delete', danger: true });
+    if (!ok) return;
     try {
       await api.delete(`/classes/${cls.id}`);
+      showToast('Class deleted.');
       load();
     } catch (err) {
-      alert(err.response?.data?.error || 'Could not delete class');
+      showToast(err.response?.data?.error || 'Could not delete class', 'error');
     }
   }
 
